@@ -6,7 +6,7 @@ const deleteCliente = async(req:Request<{id:string}>, res:Response<string | {err
     try{
         const id = req.params.id;
 
-        const clienteDelete = await ClienteModel.findOneAndDelete(id).exec(); 
+        const clienteDelete = await ClienteModel.findByIdAndDelete(id).exec();
 
         if(!clienteDelete){
             res.status(404).send("No existe un cliente con ese id");

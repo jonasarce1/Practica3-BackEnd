@@ -7,7 +7,7 @@ const deleteHipoteca = async (req:Request<{id:string}>, res:Response<string | {e
     try{
         const id = req.params.id;
 
-        const hipotecaDelete = await HipotecaModel.findOneAndDelete(id).exec(); 
+        const hipotecaDelete = await HipotecaModel.findByIdAndDelete(id).exec();
 
         if(!hipotecaDelete){
             res.status(404).send("No existe una hipoteca con ese id");
