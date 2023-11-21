@@ -60,10 +60,8 @@ gestorSchema.post("findOneAndDelete", async function(gestor:GestorModelType){
     try {
         const clientes = await ClienteModel.find({ gestor: gestor._id });
         clientes.forEach(async (cliente) => {
-            if (cliente.gestor !== null) {
-                cliente.gestor = null;
-                await cliente.save();
-            }
+            cliente.gestor = null;
+            await cliente.save();
         });
         const hipotecas = await HipotecaModel.find({ gestor: gestor._id });
         hipotecas.forEach(async (hipoteca) => {
