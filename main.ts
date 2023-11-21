@@ -78,6 +78,10 @@ const fakeResponse = () => ({ //Funcion para simular una respuesta (Para poder u
 const cronJob = new CronJob('*/5 * * * *', async () => {
   try {
     const clientes = await ClienteModel.find({});
+    if(clientes.length == 0){
+      console.log("No hay clientes");
+      return;
+    }
     for (const cliente of clientes) { //He usado bucles for ya que con for each se ejecutaban las iteraciones a la vez y se actualizaba erroneamente la cartera de los clientes
       //Ingresamos 5000 euros a cada cliente
       cliente.cartera += 5000;
