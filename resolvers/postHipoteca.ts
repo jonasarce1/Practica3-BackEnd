@@ -6,7 +6,6 @@ import { Hipoteca } from "../types.ts";
 import { HipotecaModel } from "../db/hipoteca.ts";
 import { getHipotecaFromModel } from "../controllers/getHipotecaFromModel.ts";
 
-
 const postHipoteca = async (req:Request<{nombre:string, importe:number, cliente:Cliente, gestor:Gestor}>, res:Response<Hipoteca | {error:unknown}>) => {
     try{
         const {nombre, importe, cliente, gestor} = req.body;
@@ -19,13 +18,6 @@ const postHipoteca = async (req:Request<{nombre:string, importe:number, cliente:
         });
 
         await hipoteca.save();
-
-        //Si el validate de ClienteModelType salta indicando que el importe de todas las hipotecas junto con esta es mayor a 1000000, se borra la hipoteca
-        if(hipoteca.validateSync()){ //Esto indica que hay un error en el validate
-            await HipotecaModel.findByIdAndDelete(hipoteca._id).exec();
-            res.status(400).send("El importe de todas las hipotecas de este cliente supera el millón de euros");
-            return;
-        }
 
         const hipotecaResponse = await getHipotecaFromModel(hipoteca);
 

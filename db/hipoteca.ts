@@ -27,6 +27,30 @@ hipotecaSchema.post("save", async function(hipoteca:HipotecaModelType){
     }
 })
 
+//Si el importe de una nueva hipoteca que se va a guardar en un cliente hace que el importe total de las hipotecas del cliente sea superior a 1000000 no se guarda la hipoteca
+hipotecaSchema.pre("save", async function(next){
+    try{
+        const hipoteca = this as HipotecaModelType;
+        const cliente = await ClienteModel.findById(hipoteca.cliente);
+        if(cliente){
+            let total = 0;
+            for(let i = 0; i < cliente.hipotecas.length; i++){
+                const hipoteca = await HipotecaModel.findById(cliente.hipotecas[i]);
+                if(hipoteca){
+                    total += hipoteca.importe;
+                }
+            }
+            if(total + hipoteca.importe > 1000000){
+                throw new Error("El importe total de las hipotecas del cliente no puede ser superior a 1000000");
+            }
+        }
+        return next();
+    }catch(e){
+        console.log(e.error);
+        return next(e);
+    }
+})
+
 //Middleware hook 
 //Cuando se borra una hipoteca se borra de la lista de hipotecas del cliente
 hipotecaSchema.post("findOneAndDelete", async function(hipoteca:HipotecaModelType){
