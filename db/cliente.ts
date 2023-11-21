@@ -13,7 +13,7 @@ const clienteSchema = new Schema({
 },{timestamps:true} //Para que se cree el campo createdAt y updatedAt
 )
 
-//Validate hipotecas
+//Validate hipotecas, al final no se usa, se suele entrar antes en el pre save de hipoteca que he creado
 clienteSchema.path("hipotecas").validate(async function(hipotecas:Array<mongoose.Schema.Types.ObjectId>){
     try{
         let total = 0;
