@@ -1,7 +1,6 @@
 import mongoose from "npm:mongoose@7.6.3"; 
 import { Hipoteca } from "../types.ts";
 import { ClienteModel } from "./cliente.ts";
-import { GestorModel } from "./gestor.ts";
 
 const Schema = mongoose.Schema;
 
