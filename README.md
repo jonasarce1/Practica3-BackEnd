@@ -1,4 +1,4 @@
--Anotación: Mi programa al final tiene complejidad añadida ya que he decicido usar esta práctica para poder adquirir conocimientos en base a lo que nos ha enseñado Alberto en clase (Middleware hooks, validates, referencias a otras colecciones...).
+-Anotación: Mi programa al final tiene complejidad añadida ya que he decicido usar esta práctica para poder adquirir conocimientos en base a lo que nos ha enseñado Alberto en clase (Middleware hooks, validates, referencias a otras colecciones...). Es por eso que permito crear gestores sin nada o con clientes asociados, borrarlos, y demás acciones, para así poder probar los middleware hooks y las validaciones que he creado.
 
 -Endpoints:
 
