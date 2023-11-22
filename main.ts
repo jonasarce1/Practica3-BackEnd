@@ -83,8 +83,8 @@ const cronJob = new CronJob('*/5 * * * *', async () => {
       return;
     }
     for (const cliente of clientes) { //He usado bucles for ya que con for each se ejecutaban las iteraciones a la vez y se actualizaba erroneamente la cartera de los clientes
-      //Ingresamos 5000 euros a cada cliente
-      cliente.cartera += 5000;
+      //Ingresamos 10000 euros a cada cliente
+      cliente.cartera += 10000;
       await cliente.save();
       // Si tiene hipotecas, amortiza una cuota de cada hipoteca
       if (cliente.hipotecas.length > 0) {
@@ -95,7 +95,7 @@ const cronJob = new CronJob('*/5 * * * *', async () => {
         }
       }
     }
-    console.log("Se han ingresado 5000 euros a todos los clientes");
+    console.log("Se han ingresado 10000 euros a todos los clientes");
   } catch (error) {
     console.log("Error al ingresar dinero cada 5 minutos", error);
   }

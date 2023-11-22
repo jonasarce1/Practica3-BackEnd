@@ -43,13 +43,6 @@
                 return;
             }
 
-            //Si la cantidad es mayor que el importe, se amortiza la hipoteca completamente
-            if(cantidad > importe){
-                await HipotecaModel.findByIdAndDelete(id).exec();
-                res.status(200).send("Hipoteca completamente amortizada");
-                return;
-            }
-
             const carteraClienteActualizada = carteraCliente - cantidad;
 
             const importeActualizado = importe - cantidad;
@@ -58,9 +51,12 @@
 
             const cuotaActualizada:number = Math.ceil((importeActualizado * cuota) / importe);
 
+            console.log("importe actualizado", importeActualizado);
+
             if(importeActualizado <= 0){ //Si se ha pagado mas de lo que se debia, se devuelve el dinero sobrante
                 const dineroSobrante = Math.abs(importeActualizado); //Devuelve el valor absoluto (porque es negativo)
 
+                console.log("dinero sobrante", dineroSobrante);
                 //Actualizamos la cartera del cliente
                 await ClienteModel.findByIdAndUpdate(cliente.id, {cartera: carteraClienteActualizada + dineroSobrante}, {new: true, runValidators:true}).exec();
 
