@@ -69,32 +69,6 @@ hipotecaSchema.post("findOneAndDelete", async function(hipoteca:HipotecaModelTyp
     }
 })
 
-//Middleware hook
-//Si en la BBDD hay hipotecas asociadas a un cliente que no existe se borran
-hipotecaSchema.post("findOneAndUpdate", async function(hipoteca:HipotecaModelType){
-    try{
-        const cliente = await ClienteModel.findById(hipoteca.cliente);
-        if(!cliente){
-            await HipotecaModel.findByIdAndDelete(hipoteca._id);
-        }
-    }catch(e){
-        console.log(e.error);
-    }
-})
-
-//Middleware hook
-//Si en la BBDD hay hipotecas asociadas a un gestor que no existe se borran
-hipotecaSchema.post("findOneAndUpdate", async function(hipoteca:HipotecaModelType){
-    try{
-        const gestor = await GestorModel.findById(hipoteca.gestor);
-        if(!gestor){
-            await HipotecaModel.findByIdAndDelete(hipoteca._id);
-        }
-    }catch(e){
-        console.log(e.error);
-    }
-})
-
 export type HipotecaModelType = mongoose.Document & Omit<Hipoteca, "id" | "cliente" | "gestor"> & {
     cliente : mongoose.Schema.Types.ObjectId;
     gestor : mongoose.Schema.Types.ObjectId;
