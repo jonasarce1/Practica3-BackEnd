@@ -72,6 +72,16 @@ gestorSchema.post("findOneAndDelete", async function(gestor:GestorModelType){
     }
 })
 
+//Middleware hook
+//Cuando se borra un gestor se borran las hipotecas asociadas a el de la BBDD
+gestorSchema.post("findOneAndDelete", async function(gestor:GestorModelType){
+    try {
+        await HipotecaModel.deleteMany({ gestor: gestor._id });
+    } catch (e) {
+        console.log(e.error);
+    }
+})
+
 export type GestorModelType = mongoose.Document & Omit<Gestor, "id" | "clientes"> & {
     clientes : Array<mongoose.Schema.Types.ObjectId>;
 };
