@@ -106,6 +106,22 @@ clienteSchema.post("findOneAndDelete", async function(cliente:ClienteModelType){
     }
 })
 
+//Middleware hook
+//Cuando se actualiza el gestor de un cliente con findByIdAndUpdate se actualiza la lista de clientes del gestor
+clienteSchema.post("findOneAndUpdate", async function(cliente:ClienteModelType){
+    try{
+        const gestor = await GestorModel.findById(cliente.gestor);
+        if(gestor){
+            const index = gestor.clientes.indexOf(cliente._id);
+            if(index == -1){
+                gestor.clientes.push(cliente._id); //Añadimos el cliente a la lista de clientes del gestor
+                await gestor.save();
+            }
+        }
+    }catch(e){
+        console.log(e.error);
+    }
+})
 
 export type ClienteModelType = mongoose.Document & Omit<Cliente, "id" | "gestor" | "hipotecas"> & {
     gestor : mongoose.Schema.Types.ObjectId | null;
