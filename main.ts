@@ -20,8 +20,6 @@ import asignarGestor from "./resolvers/asignarGestor.ts";
 import deleteGestor from "./resolvers/deleteGestor.ts";
 
 import postHipoteca from "./resolvers/postHipoteca.ts";
-import getHipotecas from "./resolvers/getHipotecas.ts";
-import getHipoteca from "./resolvers/getHipoteca.ts";
 import amortizarHipoteca from "./resolvers/amortizarHipoteca.ts";
 
 import { load } from "https://deno.land/std@0.204.0/dotenv/mod.ts";
@@ -63,10 +61,6 @@ app.get("/api/gestor/:id", getGestor); //Muestra un gestor por su id
 app.delete("/api/gestor/:id", deleteGestor); //Borra un gestor
 
 app.post("/api/hipoteca", postHipoteca); //Crea una hipoteca
-
-app.get("/api/hipoteca", getHipotecas); //Muestra todas las hipotecas
-
-app.get("/api/hipoteca/:id", getHipoteca); //Muestra una hipoteca por su id
 
 app.put("/api/amortizarHipoteca", amortizarHipoteca); //Amortiza una hipoteca
 

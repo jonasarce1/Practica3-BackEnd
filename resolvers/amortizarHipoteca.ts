@@ -51,12 +51,9 @@
 
             const cuotaActualizada:number = Math.ceil((importeActualizado * cuota) / importe);
 
-            console.log("importe actualizado", importeActualizado);
-
             if(importeActualizado <= 0){ //Si se ha pagado mas de lo que se debia, se devuelve el dinero sobrante
                 const dineroSobrante = Math.abs(importeActualizado); //Devuelve el valor absoluto (porque es negativo)
 
-                console.log("dinero sobrante", dineroSobrante);
                 //Actualizamos la cartera del cliente
                 await ClienteModel.findByIdAndUpdate(cliente.id, {cartera: carteraClienteActualizada + dineroSobrante}, {new: true, runValidators:true}).exec();
 
