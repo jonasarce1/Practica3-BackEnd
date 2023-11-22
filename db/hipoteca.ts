@@ -1,6 +1,7 @@
 import mongoose from "npm:mongoose@7.6.3"; 
 import { Hipoteca } from "../types.ts";
 import { ClienteModel } from "./cliente.ts";
+import { GestorModel } from "./gestor.ts";
 
 const Schema = mongoose.Schema;
 
@@ -62,6 +63,32 @@ hipotecaSchema.post("findOneAndDelete", async function(hipoteca:HipotecaModelTyp
                 cliente.hipotecas.splice(index, 1); //Borramos la hipoteca de la lista de hipotecas del cliente, splice borra el elemento en la posicion index
                 await cliente.save();
             }
+        }
+    }catch(e){
+        console.log(e.error);
+    }
+})
+
+//Middleware hook
+//Si en la BBDD hay hipotecas asociadas a un cliente que no existe se borran
+hipotecaSchema.post("findOneAndUpdate", async function(hipoteca:HipotecaModelType){
+    try{
+        const cliente = await ClienteModel.findById(hipoteca.cliente);
+        if(!cliente){
+            await HipotecaModel.findByIdAndDelete(hipoteca._id);
+        }
+    }catch(e){
+        console.log(e.error);
+    }
+})
+
+//Middleware hook
+//Si en la BBDD hay hipotecas asociadas a un gestor que no existe se borran
+hipotecaSchema.post("findOneAndUpdate", async function(hipoteca:HipotecaModelType){
+    try{
+        const gestor = await GestorModel.findById(hipoteca.gestor);
+        if(!gestor){
+            await HipotecaModel.findByIdAndDelete(hipoteca._id);
         }
     }catch(e){
         console.log(e.error);
